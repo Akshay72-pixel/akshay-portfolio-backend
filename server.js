@@ -7,20 +7,22 @@ dotenv.config();
 
 const app = express();
 
-// Allowed frontend URLs
+// Allow only your frontend URLs
 const allowedOrigins = [
-  "https://akshay-portfolio-frontends.onrender.com",
   "https://akshay-portfolio-frontend-v427.onrender.com",
-  "http://localhost:5173"
+  "https://akshay-portfolio-frontends.onrender.com",
+  "http://localhost:5173" // for local testing
 ];
 
-// Global CORS middleware
+// Global CORS
 app.use(cors({
   origin: function(origin, callback) {
+    // allow requests with no origin like Postman
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS: " + origin));
+      console.log("Blocked by CORS:", origin);
+      callback(new Error("Not allowed by CORS"));
     }
   },
   methods: ["GET", "POST", "OPTIONS"],
@@ -33,9 +35,9 @@ app.use(express.json());
 // Routes
 app.use("/api/contact", contactRoutes);
 
-// Error handling (optional)
+// Error handler (so server doesn't crash on CORS or other errors)
 app.use((err, req, res, next) => {
-  console.error(err.message);
+  console.error("Error:", err.message);
   res.status(500).json({ success: false, message: err.message });
 });
 
