@@ -9,15 +9,15 @@ const app = express();
 
 // Allowed origins
 const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.FRONTEND
+  "http://localhost:5173",                        // local dev
+  "https://akshay-portfolio-frontend-v427.onrender.com"  // deployed frontend
 ];
 
 // Global CORS middleware
 app.use(cors({
   origin: function(origin, callback) {
     console.log("Request Origin:", origin);
-    if(!origin) return callback(null, true);
+    if(!origin) return callback(null, true); // allow Postman / server-to-server
     if(allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -29,7 +29,10 @@ app.use(cors({
   credentials: true
 }));
 
-// JSON parser
+// This ensures OPTIONS requests (preflight) are handled
+app.options("*", cors());
+
+// Parse JSON bodies
 app.use(express.json());
 
 // Routes
