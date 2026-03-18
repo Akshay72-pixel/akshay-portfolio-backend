@@ -4,31 +4,24 @@ import dotenv from 'dotenv';
 import contactRoutes from './routes/contact.js';
 
 dotenv.config();
+
 const app = express();
 
-// Allowed origins
-const allowedOrigins = [
-  "http://localhost:5173",                        // local dev
-  "https://akshay-portfolio-frontend-v427.onrender.com"  // deployed frontend
-];
-
-// Global CORS middleware
+// Middleware
+const allowedOrigins = [process.env.FRONTEND]; // <-- put all your frontend URLs here
 app.use(cors({
   origin: function(origin, callback) {
-    console.log("Request Origin:", origin);
-    if(!origin) return callback(null, true); // allow Postman / server-to-server
-    if(allowedOrigins.includes(origin)) {
+    // allow requests with no origin like Postman
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS: " + origin));
+      callback(new Error('Not allowed by CORS: ' + origin));
     }
   },
   methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
-  credentials: true
+  credentials: true,
 }));
 
-// Parse JSON bodies
 app.use(express.json());
 
 // Routes
