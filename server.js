@@ -10,7 +10,7 @@ const app = express();
 // Allow only your frontend URLs
 const allowedOrigins = [
   "https://akshay-portfolio-frontend-v427.onrender.com",
-  "https://akshay-portfolio-frontends.onrender.com",
+  "https://akshay-portfolio-frontendss.onrender.com",
   "http://localhost:5173" // for local testing
 ];
 
