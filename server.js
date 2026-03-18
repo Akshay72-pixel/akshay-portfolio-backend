@@ -17,7 +17,6 @@ const allowedOrigins = [
 // Global CORS middleware
 app.use(cors({
   origin: function(origin, callback) {
-    // allow requests with no origin (Postman, curl)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -29,11 +28,16 @@ app.use(cors({
   credentials: true
 }));
 
-// Body parser
 app.use(express.json());
 
 // Routes
 app.use("/api/contact", contactRoutes);
+
+// Error handling (optional)
+app.use((err, req, res, next) => {
+  console.error(err.message);
+  res.status(500).json({ success: false, message: err.message });
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;
