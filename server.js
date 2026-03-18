@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-const allowedOrigins = ["https://akshay-portfolio-frontend-v427.onrender.com"]; // <-- put all your frontend URLs here
+const allowedOrigins = ["https://akshay-portfolio-frontends-v427.onrender.com"]; // <-- put all your frontend URLs here
 app.use(cors({
   origin: function(origin, callback) {
     // allow requests with no origin like Postman
