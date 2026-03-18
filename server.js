@@ -10,7 +10,14 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND, // your Vite frontend
+  origin: function(origin, callback) {
+    console.log("Request Origin:", origin); // <--- log
+    if(!origin || origin === process.env.FRONTEND) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
   methods: ["GET", "POST"],
   credentials: true
 }));
