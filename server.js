@@ -1,4 +1,3 @@
-// server.js
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -28,9 +27,6 @@ app.use(cors({
   allowedHeaders: ["Content-Type"],
   credentials: true
 }));
-
-// This ensures OPTIONS requests (preflight) are handled
-app.options("*", cors());
 
 // Parse JSON bodies
 app.use(express.json());
