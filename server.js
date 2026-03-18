@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -12,26 +11,19 @@ const app = express();
 const allowedOrigins = [
   "https://akshay-portfolio-frontends.onrender.com",
   "https://akshay-portfolio-frontend-v427.onrender.com",
-  "http://localhost:5173" // for local testing
+  "http://localhost:5173"
 ];
 
-// CORS middleware for all routes
+// Global CORS middleware
 app.use(cors({
   origin: function(origin, callback) {
+    // allow requests with no origin (Postman, curl)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS: " + origin));
     }
   },
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
-
-// Explicitly handle OPTIONS preflight requests
-app.options("*", cors({
-  origin: allowedOrigins,
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
